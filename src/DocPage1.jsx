@@ -105,41 +105,47 @@ const savePatient = async () => {
   };
 
   /* SAVE PRESCRIPTION */
-  const savePrescription = () => {
+ const savePrescription = async () => {
 
-    const updatedPatients = patients.map((p) => {
+  if (!selectedPatient) {
+    alert("Please select a patient first");
+    return;
+  }
 
-      if (p.id === selectedPatient.id) {
-
-        const newPrescription = {
-          diagnosis,
-          ...prescriptionData,
-          date: new Date().toLocaleDateString()
-        };
-
-        return {
-          ...p,
-          prescriptions: [...(p.prescriptions || []), newPrescription]
-        };
+  const { data, error } = await supabase
+    .from("prescriptions")
+    .insert([
+      {
+        doctor_id: "9ca6a126-44a2-4a33-b2d5-c8c13ea0e98e",
+        patient_id: "14235d76-4d0b-445d-8bef-7c1d673914e4",
+        diagnosis: diagnosis,
+        medicine: prescriptionData.medicine,
+        dosage: prescriptionData.dosage,
+        duration: prescriptionData.duration,
+        notes: prescriptionData.notes
       }
+    ])
+    .select();
 
-      return p;
-    });
+  if (error) {
+    console.error("Error saving prescription:", error);
+    alert("Failed to save prescription");
+    return;
+  }
 
-    setPatients(updatedPatients);
+  console.log("Prescription saved:", data);
 
-    setPrescriptionData({
-      medicine: "",
-      dosage: "",
-      duration: "",
-      notes: ""
-    });
+  setPrescriptionData({
+    medicine: "",
+    dosage: "",
+    duration: "",
+    notes: ""
+  });
 
-    setDiagnosis("");
+  setDiagnosis("");
 
-    setShowPrescriptionForm(false);
-  };
-
+  setShowPrescriptionForm(false);
+};
   return (
     <div className="doctor-dashboard">
 

@@ -1,88 +1,205 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import "./PatPage1.css";
 
-function PatPage1(){
+function PatPage1() {
 
- const [patient,setPatient] = useState(null);
- const [diseases,setDiseases] = useState([]);
- const [selected,setSelected] = useState(null);
+  const [patient, setPatient] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [selected, setSelected] = useState(null);
 
- useEffect(()=>{
+  /* Load logged in patient */
 
-  const stored = JSON.parse(localStorage.getItem("patient"));
+  useEffect(() => {
 
-  setPatient(stored);
+    const storedPatient = JSON.parse(localStorage.getItem("patient"));
 
-  fetchDiseases(stored.patient_id);
+    if (storedPatient) {
+      setPatient(storedPatient);
+      fetchHistory(storedPatient.patient_id);
+    }
 
- },[]);
-
-
- const fetchDiseases = async (patientId)=>{
-
-  const { data } = await supabase
-   .from("disease_history")
-   .select("*")
-   .eq("patient_id", patientId);
-
-  setDiseases(data);
-
- };
+  }, []);
 
 
- return(
+  /* Fetch diagnosis history */
 
-  <div className="dashboard">
+  const fetchHistory = async (patientId) => {
 
-   <div className="sidebar">
+    const { data, error } = await supabase
+      .from("disease_history")
+      .select("*")
+      .eq("patient_id", patientId)
+      .order("created_at", { ascending: false });
 
-    <h3>Your Records</h3>
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-    {diseases.map((d)=>(
-     <div
-      key={d.id}
-      className="disease-card"
-      onClick={()=>setSelected(d)}
-     >
-      {d.disease}
-     </div>
-    ))}
+    setHistory(data);
 
-   </div>
+    if (data.length > 0) {
+      setSelected(data[0]);
+    }
+  };
 
 
-   <div className="content">
+  /* Download report */
 
-    <h2>{patient?.name}</h2>
+  const downloadReport = () => {
 
-    {selected && (
+    if (!selected) return;
 
-     <div>
+    const report = `
+Respira Diagnosis Report
 
-      <h3>Diagnosis</h3>
-      <p>{selected.disease}</p>
+Patient: ${patient.name}
+Age: ${patient.age}
 
-      <h4>Notes</h4>
-      <p>{selected.notes}</p>
+Diagnosis: ${selected.disease}
 
-      <h4>Remedies</h4>
+Notes:
+${selected.notes}
 
-      <ul>
-       {selected.remedies?.map((r,i)=>(
-        <li key={i}>{r}</li>
-       ))}
-      </ul>
+Remedies:
+${selected.remedies?.join("\n")}
+`;
 
-     </div>
+    const blob = new Blob([report], { type: "text/plain" });
 
-    )}
+    const link = document.createElement("a");
 
-   </div>
+    link.href = URL.createObjectURL(blob);
 
-  </div>
+    link.download = "respira_report.txt";
 
- );
+    link.click();
+  };
+
+
+  if (!patient) {
+    return <div style={{padding:"40px"}}>Loading dashboard...</div>;
+  }
+
+  return (
+
+    <div className="patient-dashboard">
+
+      {/* LEFT SIDEBAR : DIAGNOSIS HISTORY */}
+
+      <div className="history-sidebar">
+
+        <h1 className="brand-title">respira.</h1>
+
+        <p className="sidebar-title">Diagnosis History</p>
+
+        {history.length === 0 && (
+          <p style={{color:"#94a3b8"}}>No records yet</p>
+        )}
+
+        {history.map((item) => (
+
+          <div
+            key={item.id}
+            className={`history-item ${
+              selected?.id === item.id ? "active" : ""
+            }`}
+            onClick={() => setSelected(item)}
+          >
+
+            <strong>{item.disease}</strong>
+
+            <span>
+              {new Date(item.created_at).toLocaleDateString()}
+            </span>
+
+          </div>
+
+        ))}
+
+      </div>
+
+
+      {/* RIGHT PANEL */}
+
+      <div className="history-details">
+
+        <div className="details-content">
+
+          {/* Patient Summary */}
+
+          <div className="patient-summary glass-panel">
+
+            <h2>{patient.name}</h2>
+
+            <span>Age: {patient.age}</span>
+
+          </div>
+
+
+          {/* Diagnosis */}
+
+          {selected && (
+
+            <div className="glass-panel">
+
+              <h3>🩺 Diagnosis</h3>
+
+              <p className="diagnosis">{selected.disease}</p>
+
+              <p className="doctor-notes">{selected.notes}</p>
+
+            </div>
+
+          )}
+
+
+          {/* Remedies */}
+
+          {selected && (
+
+            <div className="glass-panel">
+
+              <h3>💊 Suggested Remedies</h3>
+
+              <ul className="remedy-list">
+
+                {selected.remedies?.map((r,i)=>(
+                  <li key={i}>{r}</li>
+                ))}
+
+              </ul>
+
+            </div>
+
+          )}
+
+        </div>
+
+
+        {/* Download */}
+
+        {selected && (
+
+          <div className="download-section">
+
+            <button
+              className="primary-btn download-btn"
+              onClick={downloadReport}
+            >
+              Download Report 📄
+            </button>
+
+          </div>
+
+        )}
+
+      </div>
+
+    </div>
+
+  );
 }
 
 export default PatPage1;

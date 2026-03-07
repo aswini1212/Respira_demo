@@ -2,26 +2,119 @@
 /* PATIENT DASHBOARD */
 /* ===================== */
 
-.dashboard{
- display:flex;
- height:100vh;
+.patient-dashboard{
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
 }
 
-.sidebar{
- width:280px;
- background:#081a35;
- padding:20px;
+
+/* LEFT SIDEBAR */
+
+.history-sidebar{
+  width:260px;
+  background:#111827;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  border-right:1px solid #1f2937;
 }
 
-.disease{
- background:#112c52;
- padding:12px;
- margin-top:10px;
- border-radius:8px;
- cursor:pointer;
+.brand-title{
+  font-size:26px;
+  font-weight:bold;
 }
 
-.content{
- flex:1;
- padding:40px;
+.sidebar-title{
+  font-size:14px;
+  color:#9ca3af;
+}
+
+.history-item{
+  padding:12px;
+  background:#1f2937;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+}
+
+.history-item span{
+  font-size:12px;
+  color:#9ca3af;
+}
+
+.history-item:hover{
+  background:#374151;
+}
+
+.history-item.active{
+  background:#2563eb;
+}
+
+
+
+/* RIGHT SIDE */
+
+.history-details{
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  overflow-y: auto;
+}
+
+.details-content{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.glass-panel{
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+}
+
+.patient-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.diagnosis{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.remedy-list{
+  margin-top:10px;
+  padding-left:20px;
+}
+
+.remedy-list li{
+  margin-bottom:6px;
+}
+
+
+/* DOWNLOAD */
+
+.download-section{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.download-btn{
+  background:#2563eb;
+  border:none;
+  padding:12px 20px;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.download-btn:hover{
+  background:#1d4ed8;
 }

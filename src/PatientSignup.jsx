@@ -11,6 +11,7 @@ function PatientSignup() {
   const [email,setEmail] = useState("");
   const [contact,setContact] = useState("");
   const [password,setPassword] = useState("");
+  const [age, setAge] = useState("");
 
   const handleSignup = async () => {
 
@@ -19,6 +20,7 @@ function PatientSignup() {
       .insert([
         {
           name:name,
+          age: age,
           email:email,
           contact_number:contact,
           password:password
@@ -46,6 +48,12 @@ function PatientSignup() {
         <input
           placeholder="Name"
           onChange={(e)=>setName(e.target.value)}
+        />
+        
+        <input
+           type="number"
+           placeholder="Age"
+           onChange={(e)=>setAge(e.target.value)}
         />
 
         <input

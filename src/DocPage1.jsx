@@ -161,6 +161,25 @@ function DocPage1() {
 
       {/* SIDEBAR */}
       <div className="patient-list">
+        <button
+    className="logout-btn-circle"
+    onClick={() => {
+      localStorage.removeItem("doctor_id");
+      localStorage.removeItem("doctor_name");
+      navigate("/doctor-login");
+    }}
+    title="Logout"
+  >
+     <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="currentColor"
+    >
+      <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+    </svg>
+  </button>
         <h1 className="brand-title">respira.</h1>
 
         <div className="welcome-container">
@@ -191,6 +210,7 @@ function DocPage1() {
             )}
           </div>
         ))}
+        
       </div>
 
       {/* MAIN CONTENT */}

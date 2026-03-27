@@ -6,6 +6,9 @@ body{
 /* background */
 
 .signup-wrapper{
+  font-family: "Poiret One", sans-serif;
+  font-size: 17px;
+  font-weight: 500;
   height:100vh;
   display:flex;
   justify-content:center;
@@ -16,6 +19,7 @@ body{
 /* card */
 
 .signup-card{
+  
   width:420px;
   padding:40px;
   background:#0d2347;
@@ -35,6 +39,9 @@ body{
 /* inputs */
 
 .signup-card input{
+  font-family: "Poiret One", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
   width:100%;
   padding:14px;
   margin-bottom:16px;
@@ -42,7 +49,7 @@ body{
   border-radius:10px;
   background:#071b36;
   color:white;
-  font-size:14px;
+  
 }
 
 .signup-card input::placeholder{
@@ -52,13 +59,15 @@ body{
 /* button */
 
 .signup-card button{
+  font-family: "Poiret One", sans-serif;
+  font-size: 19px;
+  font-weight: 600;
   width:100%;
   padding:14px;
   border:none;
   border-radius:10px;
   background:linear-gradient(90deg,#3a78ff,#4da3ff);
   color:white;
-  font-size:16px;
   cursor:pointer;
   margin-top:10px;
 }
@@ -71,6 +80,7 @@ body{
 }
 
 .signup-card span{
+  font-size:19px;
   color:#4da3ff;
   cursor:pointer;
   margin-left:5px;

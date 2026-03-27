@@ -48,13 +48,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/docpat" element={<DocPat />} />
-        <Route path="/doctor" element={<DocPage1 />} />
-        <Route path="/patient" element={<PatPage1 />} />
+        <Route path="/doctor1" element={<DocPage1 />} />
+        <Route path="/patient1" element={<PatPage1 />} />
         <Route path="/doctor-login" element={<DoctorLogin />} />
         <Route path="/doctor-signup" element={<DoctorSignup />} />
         <Route path="/patient-login" element={<PatientLogin />} />
         <Route path="/patient-signup" element={<PatientSignup />} />
-        <Route path="/patient-dashboard" element={<PatPage1 />} />
  
        
       </Routes>

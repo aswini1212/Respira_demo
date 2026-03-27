@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Poiret+One&display=swap');
+
 .auth-page{
 
 height:100vh;
@@ -5,39 +7,43 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-background:linear-gradient(
-135deg,
-#020f2a,
-#041c3c
-);
+background:#020617;
 
 }
 
-.auth-card{
+.auth-card {
+  font-family: "Poiret One", sans-serif;
+  width: 380px;
+  padding: 40px;
 
-width:380px;
-padding:40px;
+  /* MORE TRANSPARENT */
+  background: rgba(255, 255, 255, 0.05);
 
-background:rgba(20,35,70,0.65);
-backdrop-filter:blur(20px);
+  /* STRONGER GLASS EFFECT */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
 
-border-radius:20px;
-box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  border-radius: 20px;
 
-text-align:center;
+  /* SUBTLE BORDER INSTEAD OF HEAVY SHADOW */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
+  /* VERY SOFT SHADOW */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  text-align: center;
 }
 
 .auth-card h2{
 
 color:#6fc9ff;
 margin-bottom:25px;
-font-weight:500;
-
+font-weight:600;
+font-size: 34px;
 }
 
 .auth-card input{
-
+font-family: "Poiret One", sans-serif;
 width:100%;
 padding:12px;
 margin-bottom:15px;
@@ -47,28 +53,48 @@ border:none;
 
 background:#0a1b38;
 color:white;
-
+font-size: 17px;
+font-weight: 600;
 }
 
-.auth-card button{
+.auth-card button {
+  font-family: "Poiret One", sans-serif;
+  width: 100%;
+  padding: 12px;
+  font-size: 20px;
 
-width:100%;
-padding:12px;
+  border-radius: 10px;
 
-border:none;
-border-radius:10px;
+  /* GLASS LOOK */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 
-background:#2f7cff;
-color:white;
+  /* SUBTLE BORDER */
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-cursor:pointer;
+  color: #cfe9ff;
+  cursor: pointer;
 
+  transition: all 0.3s ease;
+}
+
+.auth-card button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(111, 201, 255, 0.4);
+
+  transform: translateY(-2px);
+}
+
+.auth-card button:active {
+  transform: scale(0.97);
 }
 
 .auth-card p{
 
 margin-top:20px;
 color:#b6c7e0;
+font-size:18px;
 
 }
 
@@ -76,5 +102,6 @@ color:#b6c7e0;
 
 color:#4da3ff;
 cursor:pointer;
+font-size:20px;
 
 }

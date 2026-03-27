@@ -27,7 +27,7 @@ function DoctorLogin() {
     localStorage.setItem("doctor_id", data.doctor_id);
     localStorage.setItem("doctor_name", data.name);
 
-    navigate("/doctor");
+    navigate("/doctor1");
   };
 
   return (

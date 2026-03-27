@@ -1,4 +1,7 @@
 .login-container{
+  font-family: "Poiret One", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
   width:400px;
   margin:auto;
   margin-top:120px;
@@ -9,6 +12,9 @@
 }
 
 .login-container input{
+  font-family: "Poiret One", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
   width:100%;
   margin:10px 0;
   padding:12px;
@@ -16,17 +22,45 @@
   border-radius:6px;
 }
 
-.login-container button{
-  width:100%;
-  padding:12px;
-  background:#3c82ff;
-  border:none;
-  color:white;
-  border-radius:6px;
-  margin-top:10px;
+.login-container button {
+  font-family: "Poiret One", sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+
+  width: 100%;
+  padding: 12px;
+
+  /* GLASS EFFECT */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  color: white;
+  border-radius: 10px;
+
+  margin-top: 10px;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
 }
 
+.login-container button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+p
+{
+  margin-top:10px;
+  font-weight: 500;
+}
 .login-container span{
+  font-family: "Poiret One", sans-serif;
+  font-size: 19px;
+  font-weight: 500;
   color:#4da3ff;
   cursor:pointer;
 }

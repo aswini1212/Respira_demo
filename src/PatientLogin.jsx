@@ -26,7 +26,7 @@ function PatientLogin(){
 
   localStorage.setItem("patient", JSON.stringify(data));
 
-  navigate("/patient-dashboard");
+  navigate("/patient1");
 
  };
 
@@ -55,7 +55,7 @@ function PatientLogin(){
    <p>
     Don't have an account?
     <span onClick={()=>navigate("/patient-signup")}>
-     Sign Up
+      Sign Up
     </span>
    </p>
 

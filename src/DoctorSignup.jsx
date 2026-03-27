@@ -48,7 +48,7 @@ return(
 
 <div className="auth-card">
 
-<h2>Create Doctor Account</h2>
+<h2>Create an Account</h2>
 
 <input
 name="name"

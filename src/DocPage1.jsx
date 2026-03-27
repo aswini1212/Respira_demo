@@ -161,57 +161,47 @@ function DocPage1() {
 
       {/* SIDEBAR */}
       <div className="patient-list">
-        <button
-    className="logout-btn-circle"
-    onClick={() => {
-      localStorage.removeItem("doctor_id");
-      localStorage.removeItem("doctor_name");
-      navigate("/doctor-login");
-    }}
-    title="Logout"
-  >
-     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width="18"
-      height="18"
-      fill="currentColor"
-    >
-      <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
-    </svg>
-  </button>
-        <h1 className="brand-title">respira.</h1>
 
-        <div className="welcome-container">
-          <h2 className="welcome-doctor">Dr. {doctorName}</h2>
+  <div className="welcome-container">
+    <h2 className="welcome-doctor">Dr. {doctorName}</h2>
+  </div>
+
+  <p className="list-header">Active Patients</p>
+
+  {/* ✅ PATIENT LIST FIRST */}
+  <div className="patients-container">
+    {patients.map((patient) => (
+      <div
+        key={patient.id}
+        className={`patient-card ${
+          selectedPatient?.id === patient.id ? "active" : ""
+        }`}
+        onClick={() => {
+          setSelectedPatient(patient);
+          fetchPrescriptions(patient.id);
+        }}
+      >
+        <div className="patient-info">
+          <strong>{patient.name}</strong>
+          <span>Age {patient.age}</span>
         </div>
 
-        <p className="list-header">Active Patients</p>
-
-        <button className="add-patient-btn" onClick={() => setShowPatientForm(true)}>
-          + Add Patient
-        </button>
-
-        {patients.map((patient) => (
-          <div
-            key={patient.id}
-            className={`patient-card ${selectedPatient?.id === patient.id ? "active" : ""}`}
-            onClick={() => {
-              setSelectedPatient(patient);
-              fetchPrescriptions(patient.id);
-            }}
-          >
-            <div className="patient-info">
-              <strong>{patient.name}</strong>
-              <span>Age {patient.age}</span>
-            </div>
-            {selectedPatient?.id === patient.id && (
-              <span style={{ color: "var(--cyan-light)" }}>●</span>
-            )}
-          </div>
-        ))}
-        
+        {selectedPatient?.id === patient.id && (
+          <span style={{ color: "var(--cyan-light)" }}>●</span>
+        )}
       </div>
+    ))}
+  </div>
+
+  {/* ✅ BUTTON AT THE END */}
+  <button
+    className="add-patient-btn"
+    onClick={() => setShowPatientForm(true)}
+  >
+    + Add Patient
+  </button>
+
+</div>
 
       {/* MAIN CONTENT */}
       <div className="patient-details">
@@ -259,9 +249,7 @@ function DocPage1() {
                   onChange={handleFileChange}
                 />
               </div>
-            </div>
-
-            <div className="glass-panel prescription-panel">
+              <div className="glass-panel prescription-panel">
               <h3>🩺 Patient Medication Log</h3>
               {prescriptions.length === 0 ? (
                 <p>No medications recorded yet</p>
@@ -279,6 +267,8 @@ function DocPage1() {
                 </ul>
               )}
             </div>
+            </div>
+
           </>
         ) : (
           <div className="empty-state">

@@ -1,144 +1,140 @@
-/* ===================== */
-/* PATIENT DASHBOARD */
-/* ===================== */
-
 .patient-dashboard{
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
+  display:flex;
+  height:100vh;
+  background: transparent;
+  font-family: "Poiret One", sans-serif;
 }
 
-
-/* LEFT SIDEBAR */
-
+/* SIDEBAR */
 .history-sidebar{
-  width:260px;
-  background:#111827;
-  padding:25px;
+  width:280px;
+  background: rgba(2,6,23,0.7);
+  backdrop-filter: blur(20px);
+  padding:2rem;
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:1rem;
+  border-right:1px solid rgba(255,255,255,0.1);
   position: relative;
-  border-right:1px solid #1f2937;
 }
 
-.brand-title{
-  font-size:26px;
-  font-weight:bold;
+/* GLASS LOGOUT BUTTON */
+.logout-btn{
+  position:absolute;
+  top:1rem;
+  right:1rem;
+
+  padding:6px 12px;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:12px;
+
+  color:white;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background: rgba(255,255,255,0.1);
+}
+
+/* PATIENT INFO */
+.patient-info-box{
+  font-size:25px;
+  text-align:left;
+  margin:20px 0;
+}
+
+.patient-info-box h2{
+  font-size:40px;
+  
 }
 
 .sidebar-title{
-  font-size:14px;
-  color:#9ca3af;
+  font-size:25px;
+  color:#94a3b8;
 }
 
+/* HISTORY ITEMS */
 .history-item{
   padding:12px;
-  background:#1f2937;
-  border-radius:8px;
+  border-radius:10px;
+  background: rgba(255,255,255,0.05);
   cursor:pointer;
-  display:flex;
-  flex-direction:column;
-}
-
-.history-item span{
-  font-size:12px;
-  color:#9ca3af;
 }
 
 .history-item:hover{
-  background:#374151;
+  background: rgba(255,255,255,0.1);
 }
 
 .history-item.active{
-  background:#2563eb;
+  background: rgba(59,130,246,0.2);
 }
-
-
 
 /* RIGHT SIDE */
-
 .history-details{
-  flex: 1;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  overflow-y: auto;
+  flex:1;
+  padding:2rem;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:2rem;
 }
 
-.details-content{
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
+/* GLASS PANEL */
 .glass-panel{
-  background:#1e293b;
+  background: rgba(15,23,42,0.6);
+  backdrop-filter: blur(16px);
+  border-radius:20px;
   padding:20px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* AUDIO BUTTON */
+.glass-btn{
+  font-size:20px;
+  font-family: "Poiret One", sans-serif;
+  padding:10px 20px;
   border-radius:12px;
-}
 
-.patient-summary{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.2);
 
-.diagnosis{
-  font-size:22px;
-  font-weight:bold;
-}
-
-.remedy-list{
-  margin-top:10px;
-  padding-left:20px;
-}
-
-.remedy-list li{
-  margin-bottom:6px;
-}
-
-
-/* DOWNLOAD */
-
-.download-section{
-  display:flex;
-  justify-content:flex-end;
-}
-
-.download-btn{
-  background:#2563eb;
-  border:none;
-  padding:12px 20px;
   color:white;
-  border-radius:8px;
   cursor:pointer;
 }
 
-.download-btn:hover{
-  background:#1d4ed8;
+.glass-btn:hover{
+  background: rgba(255,255,255,0.1);
 }
 
-.logout-btn-circle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: white;
-  color: black; /* SVG inherits this color */
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s, background-color 0.2s;
+/* PRESCRIPTION LIST */
+.glass-panel p
+{
+  font-size:20px;
+}
+.prescription-list{
+  font-size:20px;
+  list-style:none;
+  padding:0;
 }
 
-.logout-btn-circle:hover {
-  transform: scale(1.1);
-  background-color: #f0f0f0;
+.prescription-list li{
+  font-size:20px;
+  padding:10px;
+  margin-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.prescription-list span{
+  font-size:20px;
+  color:#94a3b8;
+}
+
+/* TEXT */
+.diagnosis{
+  font-size:22px;
+  font-weight:bold;
 }

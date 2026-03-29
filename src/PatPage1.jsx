@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "./supabaseClient";
 import { useNavigate } from "react-router-dom";
 import "./PatPage1.css";
@@ -9,15 +9,14 @@ function PatPage1() {
   const [selected, setSelected] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
 
-  const navigate = useNavigate(); // ✅ Initialize navigate here
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
-  /* Logout Function */
   const handleLogout = () => {
     localStorage.removeItem("patient");
-    navigate("/patient-login"); // redirect to login
+    navigate("/patient-login");
   };
 
-  /* Load logged in patient */
   useEffect(() => {
     const storedPatient = JSON.parse(localStorage.getItem("patient"));
     if (storedPatient) {
@@ -29,102 +28,50 @@ function PatPage1() {
     }
   }, []);
 
-  /* Fetch diagnosis history */
   const fetchHistory = async (patientId) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("disease_history")
       .select("*")
       .eq("patient_id", patientId)
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    setHistory(data);
-    if (data.length > 0) setSelected(data[0]);
+    setHistory(data || []);
+    if (data?.length > 0) setSelected(data[0]);
   };
 
-  /* Fetch prescriptions added by doctor */
   const fetchPrescriptions = async (patientId) => {
-    const { data, error } = await supabase
-      .from("prescriptions") // ✅ Corrected table name
+    const { data } = await supabase
+      .from("prescriptions")
       .select("*")
       .eq("patient_id", patientId)
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    setPrescriptions(data);
+    setPrescriptions(data || []);
   };
 
-  /* Download report */
-  const downloadReport = () => {
-    if (!selected) return;
-
-    const doctorMeds = prescriptions
-      .map((p) => `• ${p.medicine} - ${p.dosage}`)
-      .join("\n");
-
-    const report = `
-Respira Diagnosis Report
-
-Patient: ${patient.name}
-Age: ${patient.age}
-
-Diagnosis: ${selected.disease}
-
-Notes:
-${selected.notes}
-
-AI Suggested Remedies:
-${selected.remedies?.join("\n")}
-
-Doctor Prescription:
-${doctorMeds}
-`;
-
-    const blob = new Blob([report], { type: "text/plain" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "respira_report.txt";
-    link.click();
+  const handleUploadClick = () => fileInputRef.current.click();
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) console.log("Uploaded:", file.name);
   };
 
-  if (!patient) {
-    return <div style={{ padding: "40px" }}>Loading dashboard...</div>;
-  }
+  if (!patient) return <div>Loading...</div>;
 
   return (
     <div className="patient-dashboard">
-      {/* LEFT SIDEBAR */}
-      <div className="history-sidebar">
-        {/* Logout button */}
-        <button
-          className="logout-btn-circle"
-          onClick={handleLogout}
-          title="Log out"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            fill="currentColor"
-          >
-            <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
-          </svg>
-        </button>
 
-        <h1 className="brand-title">respira.</h1>
+      {/* SIDEBAR */}
+      <div className="history-sidebar">
+
+      
+
+        {/* ✅ Patient Info */}
+        <div className="patient-info-box">
+          <h2>{patient.name}</h2>
+          <p>Age: {patient.age}</p>
+        </div>
 
         <p className="sidebar-title">Diagnosis History</p>
-
-        {history.length === 0 && <p style={{ color: "#94a3b8" }}>No records yet</p>}
 
         {history.map((item) => (
           <div
@@ -140,60 +87,57 @@ ${doctorMeds}
 
       {/* RIGHT PANEL */}
       <div className="history-details">
-        <div className="details-content">
-          {/* Patient Summary */}
-          <div className="patient-summary glass-panel">
-            <h2>{patient.name}</h2>
-            <span>Age: {patient.age}</span>
+
+        {/* AUDIO PANEL */}
+        <div className="glass-panel">
+          <h3>🔊 Check Lung Sound</h3>
+
+          <button className="glass-btn" onClick={handleUploadClick}>
+            Upload Audio
+          </button>
+
+          <input
+            type="file"
+            accept="audio/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+        </div>
+
+        {/* DIAGNOSIS */}
+        {selected && (
+          <div className="glass-panel">
+            <h3>🩺 Diagnosis</h3>
+            <p className="diagnosis">{selected.disease}</p>
+            <p>{selected.notes}</p>
           </div>
+        )}
 
-          {/* Diagnosis */}
-          {selected && (
-            <div className="glass-panel">
-              <h3>🩺 Diagnosis</h3>
-              <p className="diagnosis">{selected.disease}</p>
-              <p className="doctor-notes">{selected.notes}</p>
-            </div>
-          )}
+        {/* PRESCRIPTIONS */}
+        <div className="glass-panel">
+          <h3>💊 Doctor Prescriptions</h3>
 
-          {/* Remedies */}
-          {selected && (
-            <div className="glass-panel">
-              <h3>💊 Suggested Remedies</h3>
-              <ul className="remedy-list">
-                {selected.remedies?.map((r, i) => (
-                  <li key={i}>{r}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Doctor Prescription */}
-          {prescriptions.length > 0 && (
-            <div className="glass-panel">
-              <h3>👨‍⚕️ Doctor Prescription</h3>
-              <ul className="remedy-list">
-                {prescriptions.map((p) => (
-                  <li key={p.id}>
-                    {p.medicine} - {p.dosage}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {prescriptions.length === 0 ? (
+            <p>No prescriptions yet</p>
+          ) : (
+            <ul className="prescription-list">
+              {prescriptions.map((p) => (
+                <li key={p.prescription_id}>
+                  <strong>{p.diagnosis}</strong><br />
+                  Medicine: {p.medicine} <br />
+                  Dosage: {p.dosage} <br />
+                  Duration: {p.duration} <br />
+                  Notes: {p.notes} <br />
+                  <span>
+                    {new Date(p.created_at).toLocaleDateString()}
+                  </span>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
 
-        {/* Download Report */}
-        {selected && (
-          <div className="download-section">
-            <button
-              className="primary-btn download-btn"
-              onClick={downloadReport}
-            >
-              Download Report 📄
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

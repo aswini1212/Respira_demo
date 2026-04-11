@@ -5,7 +5,7 @@ import { supabase } from "./supabaseClient";
 
 function DocPage1() {
   const navigate = useNavigate();
-
+ 
   const doctorId = localStorage.getItem("doctor_id");
   const doctorName = localStorage.getItem("doctor_name");
 
@@ -31,9 +31,24 @@ function DocPage1() {
     notes: ""
   });
 
+  const fileInputRef = useRef(null);
+  const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  console.log("Selected file:", file);
+
+  // Optional: directly navigate with file
+  navigate("/predict", {
+    state: {
+      patient: selectedPatient,
+      file: file
+    }
+  });
+};
+
   const [diagnosis, setDiagnosis] = useState("");
 
-  const fileInputRef = useRef(null);
 
   // Check if doctor is logged in
   useEffect(() => {
@@ -81,12 +96,6 @@ function DocPage1() {
     setPrescriptions(data);
   };
 
-  // File upload
-  const handleUploadClick = () => fileInputRef.current.click();
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) console.log("Selected file:", file.name);
-  };
 
   // Patient form handling
   const handlePatientChange = (e) => {
@@ -155,6 +164,8 @@ function DocPage1() {
     setShowPrescriptionForm(false);
     fetchPrescriptions(selectedPatient.id);
   };
+
+  
 
   return (
     <div className="doctor-dashboard">
@@ -238,9 +249,16 @@ function DocPage1() {
                     <div key={i} className="bar" style={{ animationDelay: `${i * 0.1}s` }}></div>
                   ))}
                 </div>
-                <button className="primary-btn" onClick={handleUploadClick}>
-                  Upload Audio
-                </button>
+                    <button
+  className="primary-btn"
+  onClick={() =>
+    navigate("/predict", {
+      state: { patient: selectedPatient }
+    })
+  }
+>
+  Upload Audio
+</button>
                 <input
                   type="file"
                   accept="audio/*"

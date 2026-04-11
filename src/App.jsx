@@ -7,6 +7,7 @@ import DoctorLogin from "./DoctorLogin";
 import DoctorSignup from "./DoctorSignup";
 import PatientLogin from "./PatientLogin";
 import PatientSignup from "./PatientSignup";
+import PredictPage from "./PredictPage";
 import React from "react";
 
 
@@ -54,6 +55,7 @@ function App() {
         <Route path="/doctor-signup" element={<DoctorSignup />} />
         <Route path="/patient-login" element={<PatientLogin />} />
         <Route path="/patient-signup" element={<PatientSignup />} />
+        <Route path="/predict" element={<PredictPage />} />
  
        
       </Routes>

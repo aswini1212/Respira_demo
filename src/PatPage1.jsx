@@ -49,7 +49,11 @@ function PatPage1() {
     setPrescriptions(data || []);
   };
 
-  const handleUploadClick = () => fileInputRef.current.click();
+  const handleUploadClick = () => {
+  navigate("/predict", {
+    state: { patient }
+  });
+};
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) console.log("Uploaded:", file.name);
